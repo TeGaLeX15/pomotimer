@@ -9,11 +9,16 @@ import { Stats } from './pages/Stats';
 import { Settings } from './pages/Settings';
 import { Toaster } from './components/sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import CustomTitleBar from './components/CustomTitileBar';
+import { isElectron } from './utils/isElectron';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<'timer' | 'stats' | 'settings'>('timer');
   const { effectiveTheme, colorTheme } = useAppSelector(state => state.theme);
   const dispatch = useAppDispatch();
+  const showCustomTitleBar = isElectron();
+  const navHeight = 60; // например, высота твоей навигации
+  const titleBarHeight = 48; // высота кастомного заголовка
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -46,9 +51,22 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 transition-colors">
-      <Navigation currentPage={currentPage} onPageChange={setCurrentPage} />
+    {/* Кастомный заголовок только на Electron */}
+    {showCustomTitleBar && <CustomTitleBar />}
+
+    {/* Навигация */}
+    <Navigation
+      currentPage={currentPage}
+      onPageChange={setCurrentPage}
+      className={showCustomTitleBar ? 'mt-12' : ''} // mt-12 ≈ 48px тайтлбар
+    />
+
+    {/* Контент страницы */}
+    <main
+      className="pb-20 md:pb-8 min-h-screen"
+      style={{ paddingTop: showCustomTitleBar ? titleBarHeight + navHeight : navHeight }}
+    >
       
-      <main className="md:pt-20 pb-20 md:pb-8 min-h-screen">
         <AnimatePresence mode="wait">
           {currentPage === 'timer' && (
             <motion.div

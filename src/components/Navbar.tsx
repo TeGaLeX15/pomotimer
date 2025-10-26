@@ -5,6 +5,7 @@ import { colorThemes } from '../store/themeSlice';
 interface NavigationProps {
   currentPage: 'timer' | 'stats' | 'settings';
   onPageChange: (page: 'timer' | 'stats' | 'settings') => void;
+  className?: string; // добавляем возможность передавать класс
 }
 
 const translations = {
@@ -25,7 +26,7 @@ const translations = {
   },
 };
 
-export function Navigation({ currentPage, onPageChange }: NavigationProps) {
+export function Navigation({ currentPage, onPageChange, className }: NavigationProps) {
   const { language } = useAppSelector(state => state.settings);
   const { effectiveTheme, colorTheme } = useAppSelector(state => state.theme);
   const t = translations[language];
@@ -40,7 +41,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden md:block fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-lg border-b border-neutral-200 dark:border-neutral-800">
+      <nav className={`hidden md:block fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-lg border-b border-neutral-200 dark:border-neutral-800 ${className ?? ''}`}>
         <div className="max-w-6xl mx-auto px-4 lg:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

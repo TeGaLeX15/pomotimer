@@ -1,0 +1,85 @@
+/* Контейнер кастомного title bar */
+.custom-title-bar {
+    position: fixed;
+      top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  background: linear-gradient(90deg, #242424, #303030);
+  color: white;
+  -webkit-user-select: none; /* нельзя выделять текст мышью */
+  -webkit-app-region: drag;  /* весь бар перетаскиваемый */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+/* Левая часть: иконка + название */
+.title-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-icon {
+  font-size: 22px;
+  -webkit-app-region: no-drag; /* иконка не перетаскивается */
+}
+
+.app-title {
+  font-weight: 600;
+  font-size: 16px;
+  -webkit-app-region: drag; /* текст можно перетаскивать */
+}
+
+/* Правая часть: кнопки управления окном */
+.title-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Стиль всех кнопок */
+.title-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 34px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  -webkit-app-region: no-drag; /* кнопки кликабельны */
+}
+
+/* Hover эффект для кнопок */
+.title-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+}
+
+/* Особый стиль для кнопки закрытия */
+.close-btn {
+  background: rgba(255, 50, 50, 0.8);
+}
+
+.close-btn:hover {
+  background: #ff1e1e;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+/* Иконки внутри кнопок */
+.title-btn svg {
+  width: 16px;
+  height: 16px;
+}
