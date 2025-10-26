@@ -8,6 +8,7 @@ interface TimerState {
   isRunning: boolean;
   totalTime: number;
   sessionsCompleted: number;
+  startTimestamp: number | null;
 }
 
 const initialState: TimerState = {
@@ -16,6 +17,7 @@ const initialState: TimerState = {
   isRunning: false,
   totalTime: 25 * 60,
   sessionsCompleted: 0,
+  startTimestamp: null,
 };
 
 const timerSlice = createSlice({
@@ -24,6 +26,7 @@ const timerSlice = createSlice({
   reducers: {
     startTimer: (state) => {
       state.isRunning = true;
+      state.startTimestamp = Date.now();
     },
     pauseTimer: (state) => {
       state.isRunning = false;
@@ -33,8 +36,10 @@ const timerSlice = createSlice({
       state.timeLeft = state.totalTime;
     },
     tick: (state) => {
-      if (state.isRunning && state.timeLeft > 0) {
-        state.timeLeft -= 1;
+      if (state.isRunning && state.startTimestamp) {
+        const elapsed = Math.floor((Date.now() - state.startTimestamp) / 1000);
+        state.timeLeft = Math.max(state.totalTime - elapsed, 0);
+        if (state.timeLeft === 0) state.isRunning = false;
       }
     },
     setPhase: (state, action: PayloadAction<TimerPhase>) => {
